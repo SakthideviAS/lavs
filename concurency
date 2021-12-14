@@ -1,0 +1,122 @@
+import java.io.*;
+
+
+ class Banking {
+
+	
+	int total = 200;
+
+	
+	void withdrawn(String username, int withdrawal)
+	{
+
+		if (total >= withdrawal) {
+			System.out.println(username + " withdrawn "+ withdrawal);
+			total = total - withdrawal;
+
+			System.out.println(total);
+
+			
+			try{
+				Thread.sleep(1000);
+			}
+
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+	
+		else {
+
+			System.out.println(username + " you can not withdraw the amount "+ withdrawal);
+			System.out.println("your account balance is: " + total);
+
+		
+
+			try {
+				Thread.sleep(1000);
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	void deposit(String username, int deposit)
+	{
+		System.out.println(username + " deposited " + deposit);
+		total = total + deposit;
+		System.out.println("Balance after deposit: "+ total);
+		
+		try {
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+class ThreadWithdrawal extends Thread {
+
+	Banking object;
+	String username;
+	int dollar;
+	
+	ThreadWithdrawal(Banking ob, String name, int money)
+	{
+		this.object = ob;
+		this.username = name;
+		this.dollar = money;
+	}
+
+
+	public void run() { object.withdrawn(username, dollar); }
+}
+
+class ThreadDeposit extends Thread {
+
+	Banking object;
+	String name;
+	int dollar;
+	ThreadDeposit(Banking ob, String name, int money)
+	{
+	
+		this.object = ob;
+		this.name = name;
+		this.dollar = money;
+	}
+
+	public void run() { object.deposit(name, dollar); }
+}
+
+
+public class Cloudcomputing {
+
+	public static void main(String[] args)
+	{
+
+
+		Banking obj = new Banking();
+
+		ThreadWithdrawal t1
+			= new ThreadWithdrawal(obj, "laksh", 200);
+		ThreadWithdrawal t2
+			= new ThreadWithdrawal(obj, "preetha", 60);
+		ThreadDeposit t3
+			= new ThreadDeposit(obj, "sakthi", 170);
+		ThreadWithdrawal t4
+			= new ThreadWithdrawal(obj, "neethu", 560);
+		ThreadWithdrawal t5
+			= new ThreadWithdrawal(obj, "lavs", 280);
+
+
+		t1.start();
+		t2.start();
+		t3.start();
+		t4.start();
+		t5.start();
+	}
+}
